@@ -13,17 +13,16 @@ import 'package:magdsoft_flutter_structure/presentation/widget/toast.dart';
 import 'package:sizer/sizer.dart';
 import 'package:intl/intl.dart';
 
-
 late LocalizationDelegate delegate;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   BlocOverrides.runZoned(
-        () async {
+    () async {
       DioHelper.init();
       await CacheHelper.init();
       final locale =
-          CacheHelper.getDataFromSharedPreference(key: 'language') ?? "ar";
+          CacheHelper.getDataFromSharedPreference(key: 'language') ?? "en";
       delegate = await LocalizationDelegate.create(
         fallbackLocale: locale,
         supportedLocales: ['ar', 'en'],
