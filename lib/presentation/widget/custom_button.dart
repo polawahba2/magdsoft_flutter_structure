@@ -20,7 +20,7 @@ class custom_button extends StatelessWidget {
       height: size.height * 0.07,
       width: size.width * 0.4,
       decoration: BoxDecoration(
-        color: AppColor.blue,
+        color: color,
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: MaterialButton(
@@ -28,9 +28,7 @@ class custom_button extends StatelessWidget {
         elevation: 0,
         child: Text(
           text,
-          style: const TextStyle(
-            color: AppColor.white,
-          ),
+          style: const TextStyle(color: AppColor.white, fontSize: 20),
         ),
       ),
     );

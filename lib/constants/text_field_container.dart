@@ -14,14 +14,15 @@ class text_field_container extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
       width: size.width * 0.7,
-      height: size.height * 0.066,
+      height: size.height * 0.08,
       decoration: BoxDecoration(
           color: AppColor.grey,
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(10),
           border: Border.all(
             color: AppColor.black,
+            width: 1,
           )),
       child: child,
     );
