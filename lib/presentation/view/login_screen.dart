@@ -35,116 +35,141 @@ class login_screen extends StatelessWidget {
       },
       builder: (context, state) {
         var my_cubit = GlobalCubit.get(context);
-        return Scaffold(
-          backgroundColor: AppColor.blue,
-          body: Column(
-            children: [
-              Expanded(
-                child: Container(
-                  decoration: const BoxDecoration(
-                    color: AppColor.blue,
-                    image: DecorationImage(
-                      image: AssetImage(
-                        'assets/images/flutter_logo.png',
+        return SafeArea(
+          child: Scaffold(
+            backgroundColor: AppColor.blue,
+            body: Column(
+              children: [
+                Expanded(
+                  child: Stack(
+                    children: [
+                      Container(
+                        decoration: const BoxDecoration(
+                          color: AppColor.blue,
+                          image: DecorationImage(
+                            image: AssetImage(
+                              'assets/images/flutter_logo.png',
+                            ),
+                            fit: BoxFit.contain,
+                          ),
+                        ),
                       ),
-                      fit: BoxFit.contain,
-                    ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 15.0, top: 25.0),
+                        child: Align(
+                          alignment: AlignmentDirectional.topEnd,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(9.0),
+                            ),
+                            padding: const EdgeInsets.only(left: 17, right: 17),
+                            child: const Text(
+                              'عربى',
+                              style:
+                                  TextStyle(fontSize: 15, color: AppColor.blue),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ),
-              Expanded(
-                flex: 2,
-                child: Container(
-                  width: double.infinity,
-                  decoration: const BoxDecoration(
-                    color: AppColor.white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(50),
-                      topRight: Radius.circular(50),
+                Expanded(
+                  flex: 2,
+                  child: Container(
+                    width: double.infinity,
+                    decoration: const BoxDecoration(
+                      color: AppColor.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(50),
+                        topRight: Radius.circular(50),
+                      ),
                     ),
+                    child: Form(
+                        key: login_key,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Column(
+                              children: [
+                                text_field_container(
+                                  child: TextFormField(
+                                    textAlign: TextAlign.left,
+                                    controller: email_controller,
+                                    decoration: const InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: 'Email',
+                                      alignLabelWithHint: false,
+                                    ),
+                                    validator: (value) {
+                                      if (value == null ||
+                                          value.isEmpty ||
+                                          !value.contains('@')) {
+                                        return 'enter valid Email';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                ),
+                                text_field_container(
+                                  child: TextFormField(
+                                    controller: password_controller,
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: 'Password',
+                                      suffixIcon: IconButton(
+                                        icon: Icon(my_cubit.suffix_icon),
+                                        onPressed: () {
+                                          my_cubit.change_password_visibility();
+                                        },
+                                      ),
+                                    ),
+                                    obscureText: my_cubit.is_password,
+                                    validator: (value) {
+                                      if (value == null ||
+                                          value.isEmpty ||
+                                          value.length < 5) {
+                                        return 'password should be more than 5 numbers';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                custom_button(
+                                    text: 'Register',
+                                    press: () {
+                                      Navigator.pushReplacementNamed(
+                                          context, '/registration_screen');
+                                    }),
+                                state is LoginLoadingState
+                                    ? const CircularProgressIndicator()
+                                    : custom_button(
+                                        text: 'Login',
+                                        press: () {
+                                          if (login_key.currentState!
+                                              .validate()) {
+                                            my_cubit.userLogin(
+                                              email: email_controller.text,
+                                              password:
+                                                  password_controller.text,
+                                            );
+                                          }
+                                        },
+                                      ),
+                              ],
+                            ),
+                          ],
+                        )),
                   ),
-                  child: Form(
-                      key: login_key,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Column(
-                            children: [
-                              text_field_container(
-                                child: TextFormField(
-                                  textAlign: TextAlign.left,
-                                  controller: email_controller,
-                                  decoration: const InputDecoration(
-                                    border: InputBorder.none,
-                                    hintText: 'Email',
-                                    alignLabelWithHint: false,
-                                  ),
-                                  validator: (value) {
-                                    if (value == null ||
-                                        value.isEmpty ||
-                                        !value.contains('@')) {
-                                      return 'enter valid Email';
-                                    }
-                                    return null;
-                                  },
-                                ),
-                              ),
-                              text_field_container(
-                                child: TextFormField(
-                                  controller: password_controller,
-                                  decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    hintText: 'Password',
-                                    suffixIcon: IconButton(
-                                      icon: Icon(my_cubit.suffix_icon),
-                                      onPressed: () {
-                                        my_cubit.change_password_visibility();
-                                      },
-                                    ),
-                                  ),
-                                  obscureText: my_cubit.is_password,
-                                  validator: (value) {
-                                    if (value == null ||
-                                        value.isEmpty ||
-                                        value.length < 5) {
-                                      return 'password should be more than 5 numbers';
-                                    }
-                                    return null;
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              custom_button(
-                                  text: 'Register',
-                                  press: () {
-                                    Navigator.pushReplacementNamed(
-                                        context, '/registration_screen');
-                                  }),
-                              state is LoginLoadingState
-                                  ? const CircularProgressIndicator()
-                                  : custom_button(
-                                      text: 'Login',
-                                      press: () {
-                                        if (login_key.currentState!
-                                            .validate()) {
-                                          my_cubit.userLogin(
-                                            email: email_controller.text,
-                                            password: password_controller.text,
-                                          );
-                                        }
-                                      },
-                                    ),
-                            ],
-                          ),
-                        ],
-                      )),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },

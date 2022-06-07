@@ -42,6 +42,8 @@ class registration_screen extends StatelessWidget {
         }
       },
       builder: (context, state) {
+        var my_cubit = GlobalCubit.get(context);
+
         return Scaffold(
           backgroundColor: AppColor.blue,
           body: Column(
@@ -144,11 +146,19 @@ class registration_screen extends StatelessWidget {
                                         }
                                         return null;
                                       },
+                                      obscureText:
+                                          GlobalCubit.get(context).is_password,
                                       controller: password_controller,
-                                      decoration: const InputDecoration(
+                                      decoration: InputDecoration(
                                         border: InputBorder.none,
                                         hintText: 'Password',
-                                        suffixIcon: Icon(Icons.visibility_off),
+                                        suffixIcon: IconButton(
+                                          icon: Icon(my_cubit.suffix_icon),
+                                          onPressed: () {
+                                            my_cubit
+                                                .change_password_visibility();
+                                          },
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -163,10 +173,18 @@ class registration_screen extends StatelessWidget {
                                         return null;
                                       },
                                       controller: confirm_password_controller,
-                                      decoration: const InputDecoration(
+                                      obscureText:
+                                          GlobalCubit.get(context).is_password,
+                                      decoration: InputDecoration(
                                         border: InputBorder.none,
                                         hintText: 'Confirm Password',
-                                        suffixIcon: Icon(Icons.visibility_off),
+                                        suffixIcon: IconButton(
+                                          icon: Icon(my_cubit.suffix_icon),
+                                          onPressed: () {
+                                            my_cubit
+                                                .change_password_visibility();
+                                          },
+                                        ),
                                       ),
                                     ),
                                   ),

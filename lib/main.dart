@@ -17,6 +17,9 @@ import 'package:intl/intl.dart';
 late LocalizationDelegate delegate;
 
 Future<void> main() async {
+  SystemChrome.setSystemUIOverlayStyle(
+    SystemUiOverlayStyle.dark.copyWith(statusBarColor: AppColor.blue),
+  );
   WidgetsFlutterBinding.ensureInitialized();
   BlocOverrides.runZoned(
     () async {
@@ -74,42 +77,37 @@ class _MyAppState extends State<MyApp> {
           create: ((context) => GlobalCubit()),
         ),
       ],
-      child: BlocConsumer<GlobalCubit, GlobalState>(
-        listener: (context, state) {},
-        builder: (context, state) {
-          return Sizer(
-            builder: (context, orientation, deviceType) {
-              return LocalizedApp(
-                delegate,
-                LayoutBuilder(builder: (context, constraints) {
-                  return MaterialApp(
-                    debugShowCheckedModeBanner: false,
-                    title: 'Werash',
-                    localizationsDelegates: [
-                      GlobalCupertinoLocalizations.delegate,
-                      DefaultCupertinoLocalizations.delegate,
-                      GlobalMaterialLocalizations.delegate,
-                      GlobalWidgetsLocalizations.delegate,
-                      delegate,
-                    ],
-                    locale: delegate.currentLocale,
-                    supportedLocales: delegate.supportedLocales,
-                    onGenerateRoute: widget.appRouter.onGenerateRoute,
-                    theme: ThemeData(
-                      fontFamily: 'cairo',
-                      //scaffoldBackgroundColor: AppColors.white,
-                      appBarTheme: const AppBarTheme(
-                        elevation: 0.0,
-                        systemOverlayStyle: SystemUiOverlayStyle(
-                          statusBarColor: AppColor.blue,
-                          statusBarIconBrightness: Brightness.dark,
-                        ),
-                      ),
+      child: Sizer(
+        builder: (context, orientation, deviceType) {
+          return LocalizedApp(
+            delegate,
+            LayoutBuilder(builder: (context, constraints) {
+              return MaterialApp(
+                debugShowCheckedModeBanner: false,
+                title: 'Werash',
+                localizationsDelegates: [
+                  GlobalCupertinoLocalizations.delegate,
+                  DefaultCupertinoLocalizations.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  delegate,
+                ],
+                locale: delegate.currentLocale,
+                supportedLocales: delegate.supportedLocales,
+                onGenerateRoute: widget.appRouter.onGenerateRoute,
+                theme: ThemeData(
+                  fontFamily: 'cairo',
+                  //scaffoldBackgroundColor: AppColors.white,
+                  appBarTheme: const AppBarTheme(
+                    elevation: 0.0,
+                    systemOverlayStyle: SystemUiOverlayStyle(
+                      statusBarColor: AppColor.blue,
+                      statusBarIconBrightness: Brightness.dark,
                     ),
-                  );
-                }),
+                  ),
+                ),
               );
-            },
+            }),
           );
         },
       ),
